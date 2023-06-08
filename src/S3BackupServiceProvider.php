@@ -19,10 +19,10 @@ class S3BackupServiceProvider extends ServiceProvider
             ]);
         }
 
-        $this->mergeConfigFrom(__DIR__.'/config/s3backup.php', 's3-backup');
+        $this->mergeConfigFrom(__DIR__ . '/../config/s3backup.php', 's3-backup');
 
         $this->publishes([
-            __DIR__.'/config/s3backup.php' => config_path('s3backup.php'),
+            __DIR__ . '/../config/s3backup.php' => config_path('s3backup.php'),
         ], 's3-backup');
 
     }

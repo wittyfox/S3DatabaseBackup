@@ -24,7 +24,7 @@ class S3DataBaseBackupCommand extends Command
         $oldestFileIndex = null;
         $oldestTimestamp = null;
 
-        if (count($allBackups) >= 3) {
+        if (count($allBackups) >= config('s3backup.number_of_backups_allowed')) {
             foreach ($allBackups as $index => $fileName) {
                 $timestamp = substr($fileName, 0, -4); // Remove the ".sql" extension
                 if ($oldestTimestamp === null || $timestamp < $oldestTimestamp) {
