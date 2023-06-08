@@ -6,11 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class S3BackupServiceProvider extends ServiceProvider
 {
-    public function boot()
-    {
-
-    }
-
     public function register()
     {
         if ($this->app->runningInConsole()) {
