@@ -3,16 +3,22 @@
 namespace WittyFox\S3;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class S3DataBaseBackupCommand extends Command
 {
-    protected $signature = 'db:backup';
+    protected $signature = 'db:backupS3';
 
-    protected $description = 'Create a backup of the database';
+    protected $description = 'Create a backup of the database on s3';
 
     public function handle()
     {
+        $directoryPath = storage_path('app/backups');
+
+        if (!File::exists($directoryPath)) {
+            File::makeDirectory($directoryPath, 0755, true, true);
+        }
 
         $allBackups = Storage::disk('s3')->allFiles();
         $oldestFileIndex = null;

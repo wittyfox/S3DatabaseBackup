@@ -8,15 +8,22 @@ class S3BackupServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+
+    }
+
+    public function register()
+    {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 S3DataBaseBackupCommand::class,
             ]);
         }
-    }
 
-    public function register()
-    {
+        $this->mergeConfigFrom(__DIR__.'/config/s3backup.php', 's3-backup');
+
+        $this->publishes([
+            __DIR__.'/config/s3backup.php' => config_path('s3backup.php'),
+        ], 's3-backup');
 
     }
 }
