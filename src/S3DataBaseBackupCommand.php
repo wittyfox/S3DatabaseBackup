@@ -26,7 +26,7 @@ class S3DataBaseBackupCommand extends Command
 
         if (count($allBackups) >= config('s3backup.number_of_backups_allowed')) {
             foreach ($allBackups as $index => $fileName) {
-                $timestamp = substr($fileName, 0, -4); // Remove the ".sql" extension
+                $timestamp = substr($fileName, 0, -4);
                 if ($oldestTimestamp === null || $timestamp < $oldestTimestamp) {
                     $oldestTimestamp = $timestamp;
                     $oldestFileIndex = $index;
@@ -68,8 +68,6 @@ class S3DataBaseBackupCommand extends Command
         $upload = Storage::disk('s3')->put('/' . $latestBackup, file_get_contents($filePath));
 
         if ($upload) {
-
-            /* Delete all that are not latest from local storage */
             foreach ($allBackups as $backup) {
                 unlink(storage_path('app/backups/' . $backup));
             }

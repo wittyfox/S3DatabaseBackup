@@ -1,16 +1,13 @@
+This is a simple package that backups your database and uploads it to S3. Number of backups can be configured. This package can be used manually or on a cron job.
 
 ## Instalation
 
 ```composer require wittyfox/s3-backup```
 
-
 ```
 AWS_ACCESS_KEY_ID=
-
 AWS_SECRET_ACCESS_KEY=
-
 AWS_DEFAULT_REGION=
-
 AWS_BUCKET=
 ```
 
