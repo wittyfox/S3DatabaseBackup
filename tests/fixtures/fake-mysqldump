@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Stand-in for mysqldump in the tests. FAKE_MYSQLDUMP_MODE picks the behaviour;
+# the arguments and the credentials file are copied out so tests can inspect them.
+out=""
+for arg in "$@"; do
+  case "$arg" in
+    --result-file=*) out="${arg#--result-file=}" ;;
+    --defaults-extra-file=*) [ -n "$FAKE_MYSQLDUMP_CNF" ] && cp "${arg#--defaults-extra-file=}" "$FAKE_MYSQLDUMP_CNF" ;;
+  esac
+done
+[ -n "$FAKE_MYSQLDUMP_ARGS" ] && printf '%s\n' "$@" > "$FAKE_MYSQLDUMP_ARGS"
+
+case "${FAKE_MYSQLDUMP_MODE:-ok}" in
+  fail)
+    echo "mysqldump: Got error: 1045: Access denied for user" >&2
+    exit 2
+    ;;
+  partial)
+    printf 'CREATE TABLE players (id int);\n' > "$out"
+    ;;
+  *)
+    printf 'CREATE TABLE players (id int);\n-- Dump completed on 2026-10-05 10:00:00\n' > "$out"
+    ;;
+esac
